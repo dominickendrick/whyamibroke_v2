@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:ng="http://angularjs.org" ng-app="brokeApp">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Why am I broke</title>
+
+    <!-- Bootstrap -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+    <script src="/js/angular.min.js"></script>
+    <script src="/js/controllers.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Why am I broke</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="starter-template">
+        <h1>Welcome, Dominic.</h1>
+        <div class="alert alert-success alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <strong>Well done!</strong> You are not yet broke...
+        </div>
+      <div class="panel panel-primary" ng-controller="TransactionsListCtrl">
+        <div class="panel-heading">
+          <h3 class="panel-title">Transactions</h3>
+        </div>
+        <div class="panel-body">
+          <div class="form-group">
+            <div class="col-sm-8">
+              <select ng-model="query" ng-options="t.type for t in transactions">
+                <option value="">Type</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped" >
+            <thead>
+              <tr>
+                <th>Amount</th>
+                <th>Currency</th>
+                <th>Vendor</th>
+                <th>Type</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="t in transactions | filter:query.type">
+                <td>{{t.amount}}</td>
+                <td>{{t.currency}}</td>
+                <td>{{t.vendor}}</td>
+                <td>{{t.type}}</td>
+                <td>{{t.creationDate}}</td>
+                <td>{{t.name}}</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                    <span class="glyphicon glyphicon-plus"></span> Add transaction
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseOne" class="panel-collapse collapse">
+                <div class="panel-body">
+                  <form role="form" class="form-horizontal">
+                    <div class="form-group">
+                      <label for="Amount" class="col-sm-2 control-label" >Amount</label>
+                      <div class="col-sm-10">
+                        <input type="email" class="form-control" id="Amount" placeholder="Enter email">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="Currency" class="col-sm-2 control-label" >Currency</label>
+                      <div class="col-sm-10">
+                        <input type="textarea" class="form-control" id="Currency" placeholder="Currency">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="Vendor" class="col-sm-2 control-label" >Vendor</label>
+                      <div class="col-sm-10">
+                        <input type="textarea" class="form-control" id="Vendor" placeholder="Vendor">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="Date" class="col-sm-2 control-label" >Date</label>
+                      <div class="col-sm-10">
+                        <input type="datetime" class="form-control" id="Date" placeholder="Date">
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-default">Add</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Account limits</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Account</th>
+                <th>Threashhold</th>
+                <th>Type</th>
+                <th>Total in period</th>
+                <th>Remaining</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Primary</td>
+                <td>200</td>
+                <td>Entertainment</td>
+                <td>100</td>
+                <td>100</td>
+                <td>Ok!</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseLimit">
+                    <span class="glyphicon glyphicon-plus"></span> Add limit
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseLimit" class="panel-collapse collapse">
+                <div class="panel-body">
+                  <form role="form" class="form-horizontal">
+                    <div class="form-group">
+                      <label for="Account" class="col-sm-2 control-label" >Account</label>
+                      <div class="col-sm-10">
+                        <select class="form-control">
+                          <option>Primary</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="Currency" class="col-sm-2 control-label" >Threashold</label>
+                      <div class="col-sm-10">
+                        <input type="textarea" class="form-control" id="Currency" placeholder="Enter amount">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="Type" class="col-sm-2 control-label" >Type</label>
+                      <div class="col-sm-10">
+                        <select class="form-control">
+                          <option>Entertainment</option>
+                          <option>Food</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="Date" class="col-sm-2 control-label" >Period</label>
+                      <div class="col-sm-10">
+                        <select class="form-control">
+                          <option>1 week</option>
+                          <option>2 weeks</option>
+                          <option>3 weeks</option>
+                          <option>1 month</option>
+                        </select>
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-default">Add</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.container -->
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+  </body>
+</html>

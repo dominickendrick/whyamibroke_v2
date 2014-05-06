@@ -1,0 +1,22 @@
+[
+  {
+    "amount": 123.456,
+    "currency": "GBP",
+    "vendor": "The Easton",
+    "type": "Entertainment",
+    "creationDate": "Mon, 26 Aug 2013 20:23:43 GMT"
+  }, {
+    "amount": 223.456,
+    "currency": "GBP",
+    "vendor": "The Easton",
+    "type": "Entertainment",
+    "creationDate": "Mon, 26 Aug 2013 20:23:43 GMT"
+  },
+  {
+     "amount": 223.456,
+     "currency": "GBP",
+     "vendor": "The Easton",
+     "type": "Food",
+     "creationDate": "Mon, 26 Aug 2013 20:23:43 GMT"
+  }
+]
