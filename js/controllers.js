@@ -1,26 +1,61 @@
-var brokeApp = angular.module('brokeApp', []);
+var brokeControllers = angular.module('brokeControllers', []);
 
-brokeApp.controller('TransactionsListCtrl', ['$scope','$rootScope', '$http',
-  function($scope, $http) {
+brokeControllers.controller('TransactionsListCtrl', ['$rootScope', '$scope','$http',
+  function($rootScope, $scope, $http) {
     $http.get('data/transactions.json').success(function(data) {
       $scope.transactions = data;
       $rootScope.$broadcast('UPDATE_TRANSACTION_DATA', $scope.transactions);
     });
     $scope.orderProp = 'creationDate';
+    
+    $scope.update = function(transaction) {
+        $scope.transactions.push(transaction)
+        $rootScope.$broadcast('UPDATE_TRANSACTION_DATA', $scope.transactions);
+    };
+
 }]);
 
-brokeApp.controller('LimitsListCtrl', ['$scope', '$http',
+brokeControllers.controller('LimitsListCtrl', ['$scope', '$http',
   function($scope, $http) {
-    $http.get('data/limits.json').success(function(data) {
-      $scope.limits = data;
-    });
     $scope.$on('UPDATE_TRANSACTION_DATA', function ( event, transactions ) { 
-      
+      $http.get('data/limits.json').success(function(data) {
+        var results = data.map(getLimit, transactions);
+        $scope.limits = results;
+      });
     });
     $scope.orderProp = 'creationDate';
-    $scope
 }]);
 
-var checkLimit = function(limit, transaction){
-  
+function getLimit(limit){
+  var data = checkLimit(limit, this);
+  return angular.extend(data, limit);
+}
+
+function checkLimit(limit, transactions){  
+    var total = totalCost(transactions.filter(checkType, limit), "amount");
+    var remaining = limit.threashold - total;
+    return {
+      "id" : hashId(limit.account + limit.threashold + limit.type),
+      "total": total,
+      "remaining" : remaining,
+      "statusOk" : remaining > 0
+    }
+}
+
+function hashId(s){
+  return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);              
+}
+
+function checkType(value){
+  return value.hasOwnProperty("type") && value.type === this.type
+}
+
+function totalCost(transactions, key){
+  if (transactions.length > 1){
+    return transactions.reduce(function(a,b){
+      return a[key] + b[key];
+    });
+  } else {
+   return transactions[0][key]
+  }
 }
