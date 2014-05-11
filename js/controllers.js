@@ -2,6 +2,7 @@ var brokeControllers = angular.module('brokeControllers', []);
 
 brokeControllers.controller('TransactionsListCtrl', ['$rootScope', '$scope','$http',
   function($rootScope, $scope, $http) {
+	$scope.transactions = {};
     $http.get('data/transactions.json').success(function(data) {
       $scope.transactions = data;
       $rootScope.$broadcast('UPDATE_TRANSACTION_DATA', $scope.transactions);
@@ -11,8 +12,8 @@ brokeControllers.controller('TransactionsListCtrl', ['$rootScope', '$scope','$ht
     $scope.update = function(transaction) {
         $scope.transactions.push(transaction)
         $rootScope.$broadcast('UPDATE_TRANSACTION_DATA', $scope.transactions);
+		$scope.transaction = null;
     };
-
 }]);
 
 brokeControllers.controller('LimitsListCtrl', ['$scope', '$http',
@@ -52,9 +53,9 @@ function checkType(value){
 
 function totalCost(transactions, key){
   if (transactions.length > 1){
-    return transactions.reduce(function(a,b){
-      return a[key] + b[key];
-    });
+   return transactions.reduce(function(total, obj){
+	  return total + obj[key];
+    },0);
   } else {
    return transactions[0][key]
   }
